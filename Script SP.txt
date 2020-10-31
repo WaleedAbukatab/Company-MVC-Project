@@ -1,0 +1,22 @@
+USE [Company]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GetAllJobs]    Script Date: 01/11/2020 13:09:23 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE procedure [dbo].[GetAllJobs]
+	@Name nvarchar(128)
+AS
+BEGIN
+	SELECT dbo.Job.id,dbo.Job.jobid,dbo.Job.jobtitle,dbo.Job.jobdesc,dbo.Employee.firstname
+	FROM dbo.Job  
+	LEFT JOIN dbo.Employee on dbo.Job.id = dbo.Employee.jobid 
+	WHERE @name IS NULL OR  jobtitle LIKE '%' + @Name + '%'
+END;
+GO
+
+
