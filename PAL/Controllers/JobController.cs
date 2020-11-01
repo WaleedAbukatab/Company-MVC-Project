@@ -13,32 +13,16 @@ namespace PAL.Controllers
     public class JobController : Controller
     {
         Job job = new Job();
-        // GET: Job
         public ActionResult Index()
         {
             return View();
         }
 
-        private DataTable GetJobs(string jobname = null)
-        {
-            try
-            
-            {
-               DataTable jobs = JobsBAL.GetAllJobs(jobname);
-               return jobs;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-
         public ActionResult GetList()
         {
             DataTable dt = GetJobs();
-            List<Job> studentList = new List<Job>();
-            studentList = (from DataRow dr in dt.Rows
+            List<Job> jobsList = new List<Job>();
+            jobsList = (from DataRow dr in dt.Rows
                            select new Job()
                            {
                                id = Convert.ToInt32(dr["id"]),
@@ -48,8 +32,23 @@ namespace PAL.Controllers
                                firstname = dr["firstname"].ToString()
                            }).ToList();
 
-            return Json(new { data = studentList }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = jobsList }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        // GET: Job
+        private DataTable GetJobs(string jobname = null)
+        {
+            try
+
+            {
+                DataTable jobs = JobsBAL.GetAllJobs(jobname);
+                return jobs;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
